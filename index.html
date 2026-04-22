@@ -1,385 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>rx gen</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rx gen</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-:root {
-  --bg:       #111110;
-  --bg2:      #161614;
-  --bg3:      #1c1c1a;
-  --line:     rgba(255,255,255,0.07);
-  --line2:    rgba(255,255,255,0.04);
-  --text:     #d4cfc8;
-  --text2:    #857f78;
-  --text3:    #504b45;
-  --accent:   #c8a96e;
-  --red:      #c47f6e;
-  --green:    #7eb88a;
-  --blue:     #7ea8c4;
-}
+    :root {
+      --bg: #111110;
+      --bg2: #161614;
+      --bg3: #1c1c1a;
+      --line: rgba(255, 255, 255, 0.07);
+      --line2: rgba(255, 255, 255, 0.04);
+      --text: #d4cfc8;
+      --text2: #857f78;
+      --text3: #504b45;
+      --accent: #c8a96e;
+      --red: #c47f6e;
+      --green: #7eb88a;
+      --blue: #7ea8c4;
+    }
 
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; font-weight: 300; overflow: hidden; }
+    html,
+    body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      overflow: hidden;
+    }
 
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--text3); border-radius: 99px; }
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
 
-/* HEADER */
-header {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
-  border-bottom: 1px solid var(--line);
-}
-.logo { display: flex; align-items: baseline; gap: 10px; }
-.logo-name { font-family: 'DM Serif Display', serif; font-size: 19px; letter-spacing: -0.01em; color: var(--text); }
-.logo-name em { color: var(--accent); font-style: italic; }
-.logo-sub { font-size: 9px; color: var(--text3); letter-spacing: 0.14em; text-transform: uppercase; }
-.header-actions { display: flex; align-items: center; gap: 24px; }
-.h-btn {
-  background: none; border: none;
-  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300;
-  color: var(--text3); cursor: pointer;
-  display: flex; align-items: center; gap: 7px;
-  letter-spacing: 0.06em; padding: 0;
-  transition: color 0.2s;
-}
-.h-btn:hover { color: var(--text); }
-.h-btn.gold { color: var(--accent); }
-.h-btn.gold:hover { color: var(--text); }
-.h-btn i { font-size: 11px; }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-/* LAYOUT */
-.workspace { display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 52px); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text3);
+      border-radius: 99px;
+    }
 
-/* LEFT */
-.editor { border-right: 1px solid var(--line); overflow-y: auto; padding: 24px 28px 48px; display: flex; flex-direction: column; }
+    /* HEADER */
+    header {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--line);
+    }
 
-.sec { border-bottom: 1px solid var(--line2); padding: 18px 0; }
-.sec:first-child { padding-top: 0; }
-.sec:last-child { border-bottom: none; }
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
 
-.sec-title {
-  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--text3); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.sec-title i { font-size: 9px; color: var(--accent); opacity: 0.7; }
+    .logo-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 19px;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
 
-.field { margin-bottom: 11px; }
-.field:last-child { margin-bottom: 0; }
-.field-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
-.field-label i { font-size: 9px; }
+    .logo-name em {
+      color: var(--accent);
+      font-style: italic;
+    }
 
-input[type=text], input[type=number], textarea, select {
-  width: 100%; background: transparent; border: none;
-  border-bottom: 1px solid var(--line); border-radius: 0;
-  color: var(--text); font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300;
-  padding: 7px 0; outline: none; transition: border-color 0.2s; -webkit-appearance: none;
-}
-input:focus, textarea:focus, select:focus { border-color: var(--accent); }
-textarea { resize: none; line-height: 1.7; min-height: 68px; }
-select { background: var(--bg2); border: 1px solid var(--line); border-radius: 4px; padding: 4px 7px; font-size: 10px; color: var(--text2); cursor: pointer; }
+    .logo-sub {
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
 
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
 
-/* sliders */
-.slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
-.slider-row:last-child { margin-bottom: 0; }
-.sname { font-size: 10px; color: var(--text3); width: 72px; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
-.sname i { font-size: 9px; color: var(--accent); opacity: 0.6; }
-input[type=range] { flex: 1; height: 2px; accent-color: var(--accent); background: none; border: none; padding: 0; cursor: pointer; }
-.sval { font-size: 11px; color: var(--accent); width: 32px; text-align: right; flex-shrink: 0; }
+    .h-btn {
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 0.06em;
+      padding: 0;
+      transition: color 0.2s;
+    }
 
-/* changelog entries */
-.cl-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line2); }
-.cl-item:last-child { border-bottom: none; }
-.cl-item select { flex: 0 0 90px; }
-.cl-item input { flex: 1; font-size: 11px; border-bottom: none; padding: 4px 0; color: var(--text2); }
-.cl-item input:focus { border-bottom: 1px solid var(--accent); }
-.rm-btn { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 11px; padding: 4px; transition: color 0.15s; flex-shrink: 0; }
-.rm-btn:hover { color: var(--red); }
+    .h-btn:hover {
+      color: var(--text);
+    }
 
-/* binary rows */
-.bin-row { display: flex; gap: 7px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line2); }
-.bin-row:last-child { border-bottom: none; }
-.bin-row input { flex: 1; font-size: 10px; padding: 3px 0; border-bottom: none; }
+    .h-btn.gold {
+      color: var(--accent);
+    }
 
-.add-row {
-  display: flex; align-items: center; gap: 7px; padding-top: 10px;
-  font-size: 10px; color: var(--text3); cursor: pointer;
-  background: none; border: none; font-family: inherit; font-weight: 300;
-  letter-spacing: 0.06em; transition: color 0.2s;
-}
-.add-row:hover { color: var(--accent); }
-.add-row i { font-size: 9px; }
+    .h-btn.gold:hover {
+      color: var(--text);
+    }
 
-/* BADGE STRIP */
-.badge-strip { display: flex; gap: 10px; align-items: center; padding: 4px 0 10px; }
-.rx-badge {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
-  cursor: default; position: relative;
-  opacity: 0; transform: scale(0.25) rotate(-20deg);
-  animation: rxPop 0.48s cubic-bezier(0.34,1.65,0.64,1) forwards;
-}
-.rx-badge:hover { animation: rxHover 0.3s ease forwards !important; }
-@keyframes rxPop {
-  0%   { opacity:0; transform: scale(0.2) rotate(-20deg); }
-  65%  { opacity:1; transform: scale(1.18) rotate(6deg); }
-  82%  { transform: scale(0.95) rotate(-2deg); }
-  100% { opacity:1; transform: scale(1) rotate(0deg); }
-}
-@keyframes rxHover {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.28) rotate(-7deg); }
-  70%  { transform: scale(0.94) rotate(4deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
-.rx-badge:nth-child(1) { animation-delay:0.00s; }
-.rx-badge:nth-child(2) { animation-delay:0.08s; }
-.rx-badge:nth-child(3) { animation-delay:0.16s; }
-.rx-badge:nth-child(4) { animation-delay:0.24s; }
-.rx-badge:nth-child(5) { animation-delay:0.32s; }
+    .h-btn i {
+      font-size: 11px;
+    }
 
-.rx-badge.t-added    { background:#e8f5ec; }
-.rx-badge.t-fixed    { background:#f5e8e8; }
-.rx-badge.t-removed  { background:#f5f0e4; }
-.rx-badge.t-note     { background:#e6eef5; }
-.rx-badge.t-optimized{ background:#f0eaf5; }
+    /* LAYOUT */
+    .workspace {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      height: calc(100vh - 52px);
+    }
 
-/* tooltip */
-.rx-badge::after {
-  content: attr(data-label);
-  position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
-  font-size: 8px; font-family: 'DM Mono', monospace; color: var(--text3);
-  letter-spacing: 0.06em; white-space: nowrap;
-  opacity: 0; transition: opacity 0.18s; pointer-events: none;
-}
-.rx-badge:hover::after { opacity: 1; }
+    /* LEFT */
+    .editor {
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+      padding: 24px 28px 48px;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* RIGHT */
-.preview { background: var(--bg); overflow-y: auto; padding: 36px 48px; }
-.preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.preview-label { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); display: flex; align-items: center; gap: 8px; }
-.preview-label i { font-size: 9px; color: var(--accent); opacity: 0.5; }
-.char-count { font-size: 9px; color: var(--text3); letter-spacing: 0.04em; }
+    .sec {
+      border-bottom: 1px solid var(--line2);
+      padding: 18px 0;
+    }
 
-#mdOut {
-  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300;
-  line-height: 1.95; color: var(--text2); white-space: pre-wrap; word-break: break-word;
-}
+    .sec:first-child {
+      padding-top: 0;
+    }
 
-/* toast */
-.toast {
-  position: fixed; bottom: 28px; right: 28px;
-  background: var(--bg3); border: 1px solid var(--line);
-  color: var(--accent); font-family: 'DM Mono', monospace; font-size: 11px;
-  padding: 10px 18px; border-radius: 6px; letter-spacing: 0.06em;
-  display: flex; align-items: center; gap: 8px;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.2s, transform 0.2s; pointer-events: none;
-}
-.toast.show { opacity: 1; transform: translateY(0); }
-</style>
+    .sec:last-child {
+      border-bottom: none;
+    }
+
+    .sec-title {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-title i {
+      font-size: 9px;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    .field {
+      margin-bottom: 11px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .field-label i {
+      font-size: 9px;
+    }
+
+    input[type=text],
+    input[type=number],
+    textarea,
+    select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      padding: 7px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: none;
+      line-height: 1.7;
+      min-height: 68px;
+    }
+
+    select {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 4px 7px;
+      font-size: 10px;
+      color: var(--text2);
+      cursor: pointer;
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 9px;
+    }
+
+    .slider-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .sname {
+      font-size: 10px;
+      color: var(--text3);
+      width: 72px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sname i {
+      font-size: 9px;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+
+    input[type=range] {
+      flex: 1;
+      height: 2px;
+      accent-color: var(--accent);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .sval {
+      font-size: 11px;
+      color: var(--accent);
+      width: 32px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* changelog entries */
+    .cl-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--line2);
+    }
+
+    .cl-item:last-child {
+      border-bottom: none;
+    }
+
+    .cl-item select {
+      flex: 0 0 90px;
+    }
+
+    .cl-item input {
+      flex: 1;
+      font-size: 11px;
+      border-bottom: none;
+      padding: 4px 0;
+      color: var(--text2);
+    }
+
+    .cl-item input:focus {
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .rm-btn {
+      background: none;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 4px;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .rm-btn:hover {
+      color: var(--red);
+    }
+
+    /* binary rows */
+    .bin-row {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line2);
+    }
+
+    .bin-row:last-child {
+      border-bottom: none;
+    }
+
+    .bin-row input {
+      flex: 1;
+      font-size: 10px;
+      padding: 3px 0;
+      border-bottom: none;
+    }
+
+    .add-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-top: 10px;
+      font-size: 10px;
+      color: var(--text3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .add-row:hover {
+      color: var(--accent);
+    }
+
+    .add-row i {
+      font-size: 9px;
+    }
+
+    /* BADGE STRIP */
+    .badge-strip {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 4px 0 10px;
+    }
+
+    .rx-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      cursor: default;
+      position: relative;
+      opacity: 0;
+      transform: scale(0.25) rotate(-20deg);
+      animation: rxPop 0.48s cubic-bezier(0.34, 1.65, 0.64, 1) forwards;
+    }
+
+    .rx-badge:hover {
+      animation: rxHover 0.3s ease forwards !important;
+    }
+
+    @keyframes rxPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.2) rotate(-20deg);
+      }
+
+      65% {
+        opacity: 1;
+        transform: scale(1.18) rotate(6deg);
+      }
+
+      82% {
+        transform: scale(0.95) rotate(-2deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes rxHover {
+      0% {
+        transform: scale(1);
+      }
+
+      40% {
+        transform: scale(1.28) rotate(-7deg);
+      }
+
+      70% {
+        transform: scale(0.94) rotate(4deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .rx-badge:nth-child(1) {
+      animation-delay: 0.00s;
+    }
+
+    .rx-badge:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+
+    .rx-badge:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+
+    .rx-badge:nth-child(4) {
+      animation-delay: 0.24s;
+    }
+
+    .rx-badge:nth-child(5) {
+      animation-delay: 0.32s;
+    }
+
+    .rx-badge.t-added {
+      background: #e8f5ec;
+    }
+
+    .rx-badge.t-fixed {
+      background: #f5e8e8;
+    }
+
+    .rx-badge.t-removed {
+      background: #f5f0e4;
+    }
+
+    .rx-badge.t-note {
+      background: #e6eef5;
+    }
+
+    .rx-badge.t-optimized {
+      background: #f0eaf5;
+    }
+
+    /* tooltip */
+    .rx-badge::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      font-family: 'DM Mono', monospace;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.18s;
+      pointer-events: none;
+    }
+
+    .rx-badge:hover::after {
+      opacity: 1;
+    }
+
+    /* RIGHT */
+    .preview {
+      background: var(--bg);
+      overflow-y: auto;
+      padding: 36px 48px;
+    }
+
+    .preview-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .preview-label {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-label i {
+      font-size: 9px;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+
+    .char-count {
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+    }
+
+    #mdOut {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.95;
+      color: var(--text2);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--bg3);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">
-    <span class="logo-name">rx <em>gen</em></span>
-    <span class="logo-sub">release generator</span>
-  </div>
-  <div class="header-actions">
-    <button class="h-btn" onclick="replayBadges()">
-      <i class="fa-solid fa-rotate-right"></i> replay
-    </button>
-    <button class="h-btn gold" onclick="copyMd()">
-      <i class="fa-solid fa-copy"></i> copy markdown
-    </button>
-  </div>
-</header>
-
-<div class="workspace">
-  <div class="editor">
-
-    <!-- badges -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-solid fa-sparkles"></i> badges</div>
-      <div class="badge-strip" id="badgeStrip">
-        <span class="rx-badge t-added"     data-label="added">✅</span>
-        <span class="rx-badge t-fixed"     data-label="fixed">❌</span>
-        <span class="rx-badge t-removed"   data-label="removed">🗑️</span>
-        <span class="rx-badge t-note"      data-label="note">🔹</span>
-        <span class="rx-badge t-optimized" data-label="optimized">✨</span>
-      </div>
+  <header>
+    <div class="logo">
+      <span class="logo-name">rx <em>gen</em></span>
+      <span class="logo-sub">release generator</span>
     </div>
-
-    <!-- identity -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-solid fa-code-branch"></i> identity</div>
-      <div class="field">
-        <div class="field-label"><i class="fa-solid fa-tag"></i> version</div>
-        <input type="text" id="version" value="Update v1.1.0 — First Wave" oninput="render()">
-      </div>
-      <div class="field">
-        <div class="field-label"><i class="fa-solid fa-quote-left"></i> tagline</div>
-        <input type="text" id="tagline" value="Precision-engineered pass with IL2CPP support and legacy cleanup." oninput="render()">
-      </div>
+    <div class="header-actions">
+      <button class="h-btn" onclick="replayBadges()">
+        <i class="fa-solid fa-rotate-right"></i> replay
+      </button>
+      <button class="h-btn gold" onclick="copyMd()">
+        <i class="fa-solid fa-copy"></i> copy markdown
+      </button>
     </div>
+  </header>
 
-    <!-- metrics -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-solid fa-chart-simple"></i> impact</div>
-      <div class="slider-row">
-        <span class="sname"><i class="fa-solid fa-bolt"></i> perf</span>
-        <input type="range" id="perf" min="0" max="100" value="72"
-          oninput="document.getElementById('pv').textContent=this.value+'%';render()">
-        <span class="sval" id="pv">72%</span>
-      </div>
-      <div class="slider-row">
-        <span class="sname"><i class="fa-solid fa-shield-halved"></i> stability</span>
-        <input type="range" id="stab" min="0" max="100" value="88"
-          oninput="document.getElementById('sv').textContent=this.value+'%';render()">
-        <span class="sval" id="sv">88%</span>
-      </div>
-      <div class="grid2" style="margin-top:10px;">
-        <div class="field">
-          <div class="field-label"><i class="fa-solid fa-plus"></i> features</div>
-          <input type="number" id="feats" min="0" value="3" oninput="render()">
-        </div>
-        <div class="field">
-          <div class="field-label"><i class="fa-solid fa-triangle-exclamation"></i> breaking</div>
-          <input type="number" id="breaking" min="0" value="0" oninput="render()">
+  <div class="workspace">
+    <div class="editor">
+
+      <!-- badges -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-solid fa-sparkles"></i> badges</div>
+        <div class="badge-strip" id="badgeStrip">
+          <span class="rx-badge t-added" data-label="added">✅</span>
+          <span class="rx-badge t-fixed" data-label="fixed">❌</span>
+          <span class="rx-badge t-removed" data-label="removed">🗑️</span>
+          <span class="rx-badge t-note" data-label="note">🔹</span>
+          <span class="rx-badge t-optimized" data-label="optimized">✨</span>
         </div>
       </div>
-    </div>
 
-    <!-- changelog -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-solid fa-list-check"></i> changelog</div>
-      <div id="clItems"></div>
-      <button class="add-row" onclick="addItem()"><i class="fa-solid fa-plus"></i> add entry</button>
-    </div>
-
-    <!-- diff -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-brands fa-git-alt"></i> diff</div>
-      <div class="field">
-        <div class="field-label"><i class="fa-solid fa-file-code"></i> language</div>
-        <input type="text" id="diffLang" value="diff" oninput="render()">
+      <!-- identity -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-solid fa-code-branch"></i> identity</div>
+        <div class="field">
+          <div class="field-label"><i class="fa-solid fa-tag"></i> version</div>
+          <input type="text" id="version" value="Update v1.1.0 — First Wave" oninput="render()">
+        </div>
+        <div class="field">
+          <div class="field-label"><i class="fa-solid fa-quote-left"></i> tagline</div>
+          <input type="text" id="tagline" value="Precision-engineered pass with IL2CPP support and legacy cleanup."
+            oninput="render()">
+        </div>
       </div>
-      <div class="field">
-        <div class="field-label"><i class="fa-solid fa-code"></i> content</div>
-        <textarea id="diff" rows="4" oninput="render()">-  void legacy_scan(void* ptr);
+
+      <!-- metrics -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-solid fa-chart-simple"></i> impact</div>
+        <div class="slider-row">
+          <span class="sname"><i class="fa-solid fa-bolt"></i> perf</span>
+          <input type="range" id="perf" min="0" max="100" value="72"
+            oninput="document.getElementById('pv').textContent=this.value+'%';render()">
+          <span class="sval" id="pv">72%</span>
+        </div>
+        <div class="slider-row">
+          <span class="sname"><i class="fa-solid fa-shield-halved"></i> stability</span>
+          <input type="range" id="stab" min="0" max="100" value="88"
+            oninput="document.getElementById('sv').textContent=this.value+'%';render()">
+          <span class="sval" id="sv">88%</span>
+        </div>
+        <div class="grid2" style="margin-top:10px;">
+          <div class="field">
+            <div class="field-label"><i class="fa-solid fa-plus"></i> features</div>
+            <input type="number" id="feats" min="0" value="3" oninput="render()">
+          </div>
+          <div class="field">
+            <div class="field-label"><i class="fa-solid fa-triangle-exclamation"></i> breaking</div>
+            <input type="number" id="breaking" min="0" value="0" oninput="render()">
+          </div>
+        </div>
+      </div>
+
+      <!-- changelog -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-solid fa-list-check"></i> changelog</div>
+        <div id="clItems"></div>
+        <button class="add-row" onclick="addItem()"><i class="fa-solid fa-plus"></i> add entry</button>
+      </div>
+
+      <!-- diff -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-brands fa-git-alt"></i> diff</div>
+        <div class="field">
+          <div class="field-label"><i class="fa-solid fa-file-code"></i> language</div>
+          <input type="text" id="diffLang" value="diff" oninput="render()">
+        </div>
+        <div class="field">
+          <div class="field-label"><i class="fa-solid fa-code"></i> content</div>
+          <textarea id="diff" rows="4" oninput="render()">-  void legacy_scan(void* ptr);
 +  void il2cpp_scan(void* ptr, ScanMode mode);</textarea>
+        </div>
       </div>
+
+      <!-- binaries -->
+      <div class="sec">
+        <div class="sec-title"><i class="fa-solid fa-box-archive"></i> binaries</div>
+        <div id="binItems"></div>
+        <button class="add-row" onclick="addBinary()"><i class="fa-solid fa-plus"></i> add binary</button>
+      </div>
+
     </div>
 
-    <!-- binaries -->
-    <div class="sec">
-      <div class="sec-title"><i class="fa-solid fa-box-archive"></i> binaries</div>
-      <div id="binItems"></div>
-      <button class="add-row" onclick="addBinary()"><i class="fa-solid fa-plus"></i> add binary</button>
+    <!-- RIGHT -->
+    <div class="preview">
+      <div class="preview-top">
+        <div class="preview-label"><i class="fa-brands fa-markdown"></i> markdown output</div>
+        <span class="char-count" id="charCount">— chars</span>
+      </div>
+      <pre id="mdOut"></pre>
     </div>
-
   </div>
 
-  <!-- RIGHT -->
-  <div class="preview">
-    <div class="preview-top">
-      <div class="preview-label"><i class="fa-brands fa-markdown"></i> markdown output</div>
-      <span class="char-count" id="charCount">— chars</span>
-    </div>
-    <pre id="mdOut"></pre>
-  </div>
-</div>
+  <div class="toast" id="toast"><i class="fa-solid fa-check"></i> copied to clipboard</div>
 
-<div class="toast" id="toast"><i class="fa-solid fa-check"></i> copied to clipboard</div>
+  <script>
+    let items = [
+      { type: "added", text: "High-speed IL2CPP scanning logic for `libil2cpp.so`" },
+      { type: "removed", text: "Legacy Java symbol table causing memory leaks" },
+      { type: "optimized", text: "Reduced binary overhead by 12% using custom linker flags" },
+    ];
+    let bins = [{ file: "ApkAnalyzer.exe", platform: "Windows x64", hash: "a1b2c3d4e5f6..." }];
 
-<script>
-let items = [
-  { type:"added",    text:"High-speed IL2CPP scanning logic for `libil2cpp.so`" },
-  { type:"removed",  text:"Legacy Java symbol table causing memory leaks" },
-  { type:"optimized",text:"Reduced binary overhead by 12% using custom linker flags" },
-];
-let bins = [{ file:"ApkAnalyzer.exe", platform:"Windows x64", hash:"a1b2c3d4e5f6..." }];
+    const TYPES = {
+      added: {
+        icon: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Mark%20Button.png",
+        label: "Added"
+      },
+      fixed: {
+        icon: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Cross%20Mark.png",
+        label: "Fixed"
+      },
+      removed: {
+        icon: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Wastebasket.png",
+        label: "Removed"
+      },
+      note: {
+        icon: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Information.png",
+        label: "Note"
+      },
+      optimized: {
+        icon: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Sparkles.png",
+        label: "Optimized"
+      },
+    };
 
-const TYPES = {
-  added:    { badge:"https://img.shields.io/badge/-Added-brightgreen?style=flat-square" },
-  fixed:    { badge:"https://img.shields.io/badge/-Fixed-red?style=flat-square" },
-  removed:  { badge:"https://img.shields.io/badge/-Removed-orange?style=flat-square" },
-  note:     { badge:"https://img.shields.io/badge/-Note-blue?style=flat-square" },
-  optimized:{ badge:"https://img.shields.io/badge/-Optimized-blueviolet?style=flat-square" },
-};
-
-function renderItems() {
-  const c = document.getElementById('clItems');
-  c.innerHTML = '';
-  items.forEach((item,i) => {
-    const d = document.createElement('div');
-    d.className = 'cl-item';
-    d.innerHTML = `
+    function renderItems() {
+      const c = document.getElementById('clItems');
+      c.innerHTML = '';
+      items.forEach((item, i) => {
+        const d = document.createElement('div');
+        d.className = 'cl-item';
+        d.innerHTML = `
       <select onchange="items[${i}].type=this.value;render()">
-        ${Object.keys(TYPES).map(k=>`<option value="${k}"${k===item.type?' selected':''}>${k}</option>`).join('')}
+        ${Object.keys(TYPES).map(k => `<option value="${k}"${k === item.type ? ' selected' : ''}>${k}</option>`).join('')}
       </select>
-      <input type="text" value="${item.text.replace(/"/g,'&quot;')}"
+      <input type="text" value="${item.text.replace(/"/g, '&quot;')}"
         oninput="items[${i}].text=this.value;render()" placeholder="describe the change…">
       <button class="rm-btn" onclick="items.splice(${i},1);renderItems();render()">
         <i class="fa-solid fa-xmark"></i>
       </button>`;
-    c.appendChild(d);
-  });
-}
+        c.appendChild(d);
+      });
+    }
 
-function addItem() { items.push({type:"added",text:""}); renderItems(); render(); }
+    function addItem() { items.push({ type: "added", text: "" }); renderItems(); render(); }
 
-function renderBins() {
-  const c = document.getElementById('binItems');
-  c.innerHTML = '';
-  bins.forEach((b,i) => {
-    const d = document.createElement('div');
-    d.className = 'bin-row';
-    d.innerHTML = `
+    function renderBins() {
+      const c = document.getElementById('binItems');
+      c.innerHTML = '';
+      bins.forEach((b, i) => {
+        const d = document.createElement('div');
+        d.className = 'bin-row';
+        d.innerHTML = `
       <input type="text" value="${b.file}" placeholder="file.exe" oninput="bins[${i}].file=this.value;render()">
       <input type="text" value="${b.platform}" placeholder="platform" oninput="bins[${i}].platform=this.value;render()">
       <input type="text" value="${b.hash}" placeholder="sha-256…" oninput="bins[${i}].hash=this.value;render()">
       <button class="rm-btn" onclick="bins.splice(${i},1);renderBins();render()">
         <i class="fa-solid fa-xmark"></i>
       </button>`;
-    c.appendChild(d);
-  });
-}
+        c.appendChild(d);
+      });
+    }
 
-function addBinary() { bins.push({file:"",platform:"",hash:""}); renderBins(); render(); }
+    function addBinary() { bins.push({ file: "", platform: "", hash: "" }); renderBins(); render(); }
 
-function bar(v,len=10) { const f=Math.round((v/100)*len); return '█'.repeat(f)+'░'.repeat(len-f); }
+    function bar(v, len = 10) { const f = Math.round((v / 100) * len); return '█'.repeat(f) + '░'.repeat(len - f); }
 
-function render() {
-  const version=document.getElementById('version').value;
-  const tagline=document.getElementById('tagline').value;
-  const perf=document.getElementById('perf').value;
-  const stab=document.getElementById('stab').value;
-  const feats=document.getElementById('feats').value;
-  const breaking=document.getElementById('breaking').value;
-  const diff=document.getElementById('diff').value;
-  const diffLang=document.getElementById('diffLang').value;
+    function render() {
+      const version = document.getElementById('version').value;
+      const tagline = document.getElementById('tagline').value;
+      const perf = document.getElementById('perf').value;
+      const stab = document.getElementById('stab').value;
+      const feats = document.getElementById('feats').value;
+      const breaking = document.getElementById('breaking').value;
+      const diff = document.getElementById('diff').value;
+      const diffLang = document.getElementById('diffLang').value;
 
-  const clLines = items.map(it=>`- ![](${TYPES[it.type].badge}) ${it.text}`).join('\n') || '<!-- no entries yet -->';
-  const binRows = bins.map(b=>`| \`${b.file}\` | ${b.platform} | \`${b.hash}\` |`).join('\n');
+      // This creates the animated "popup" row in the markdown output
+      const clLines = items.map(it => {
+        const typeInfo = TYPES[it.type];
+        return `* <img src="${typeInfo.icon}" width="20" height="20" align="center"> **${typeInfo.label}:** ${it.text}`;
+      }).join('\n') || '';
 
-  const md =
-`# 🚀 ${version}
+      const binRows = bins.map(b => `| \`${b.file}\` | ${b.platform} | \`${b.hash}\` |`).join('\n');
+
+      const md =
+        `# 🚀 ${version}
 
 > ${tagline}
 
@@ -391,8 +801,8 @@ function render() {
 |--------|-------|-----|
 | ⚡ Performance | **${perf}%** | \`${bar(perf)}\` |
 | 🛡️ Stability   | **${stab}%** | \`${bar(stab)}\` |
-| 🆕 Features    | **${feats}** | \`${'▪'.repeat(Math.min(Number(feats),10))}\` |
-| 💥 Breaking    | **${breaking}** | ${Number(breaking)>0?'⚠️ review required':'✅ none'} |
+| 🆕 Features    | **${feats}** | \`${'▪'.repeat(Math.min(Number(feats), 10))}\` |
+| 💥 Breaking    | **${breaking}** | ${Number(breaking) > 0 ? '⚠️ review required' : '✅ none'} |
 
 ---
 
@@ -408,35 +818,36 @@ ${diff}
 \`\`\`
 
 </details>
-${bins.length?`
+${bins.length ? `
 ## 📦 Binary Checksums (SHA-256)
 
 | File | Platform | SHA-256 |
 |------|----------|---------|
 ${binRows}
 
-> ⚠️ always verify checksums before execution.`:''}
+> ⚠️ always verify checksums before execution.`: ''}
 
 ---
 *generated with **rx gen***`;
 
-  document.getElementById('mdOut').textContent = md;
-  document.getElementById('charCount').textContent = md.length.toLocaleString() + ' chars';
-}
+      document.getElementById('mdOut').textContent = md;
+      document.getElementById('charCount').textContent = md.length.toLocaleString() + ' chars';
+    }
 
-function copyMd() {
-  navigator.clipboard.writeText(document.getElementById('mdOut').textContent);
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
+    function copyMd() {
+      navigator.clipboard.writeText(document.getElementById('mdOut').textContent);
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
 
-function replayBadges() {
-  const strip = document.getElementById('badgeStrip');
-  strip.replaceWith(strip.cloneNode(true));
-}
+    function replayBadges() {
+      const strip = document.getElementById('badgeStrip');
+      strip.replaceWith(strip.cloneNode(true));
+    }
 
-renderItems(); renderBins(); render();
-</script>
+    renderItems(); renderBins(); render();
+  </script>
 </body>
+
 </html>
